@@ -1,0 +1,427 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Oxy2K • XP Terminal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<style>
+  /* -------------------------
+     Windows XP Luna visuals
+     ------------------------- */
+  :root{
+    --xp-blue-top: #0a64ad;    /* Luna title gradient (top) */
+    --xp-blue-bot: #58a0e0;    /* Luna title gradient (bottom) */
+    --xp-blue-dark:#083e74;    /* left edge/overhang */
+    --xp-blue-lite:#8cc3ef;    /* highlight line */
+    --xp-frame-dark:#3d6ca4;   /* outer frame (blue theme) */
+    --xp-frame-mid:#a7c7e9;    /* mid bevel */
+    --xp-frame-lite:#ffffff;   /* highlight bevel */
+    --xp-shadow: rgba(0,0,0,.45);
+
+    --xp-btn-red:#e95454;
+    --xp-btn-yellow:#f0cc4a;
+    --xp-btn-green:#72c253;
+
+    --term-bg: #000000;
+    --term-fg: #e6e6e6;
+    --term-dim:#9aa0a6;
+    --cursor:#e6e6e6;
+  }
+
+  html, body{
+    height:100%;
+    margin:0;
+    background:
+      radial-gradient(1100px 600px at 20% -15%, rgba(88,160,224,.15), transparent 40%),
+      radial-gradient(900px 700px at 120% 120%, rgba(10,100,173,.15), transparent 50%),
+      #1c3b63;
+    font-family: Tahoma, Segoe UI, Verdana, sans-serif;
+    user-select: none;
+  }
+
+  .desktop {
+    height:100%;
+    width:100%;
+    position:relative;
+    overflow:hidden;
+  }
+
+  /* Window container with XP drop shadow */
+  .xp-window{
+    position:absolute;
+    top:8vh; left:8vw;
+    width:min(1100px, 92vw);
+    height:min(720px, 80vh);
+    box-shadow:
+      0 18px 40px var(--xp-shadow),
+      0 2px 0 rgba(255,255,255,.08) inset;
+    /* Outer blue frame strip like XP */
+    background:
+      linear-gradient(180deg, var(--xp-blue-dark), var(--xp-blue-dark)) 0 0/4px 100% no-repeat,
+      linear-gradient(180deg, var(--xp-blue-dark), var(--xp-blue-dark)) 100% 0/4px 100% no-repeat,
+      linear-gradient(90deg,  var(--xp-blue-dark), var(--xp-blue-dark)) 0 0/100% 4px no-repeat,
+      linear-gradient(90deg,  var(--xp-blue-dark), var(--xp-blue-dark)) 0 100%/100% 4px no-repeat,
+      #c7dcf1;
+    border-radius: 6px;
+    overflow:hidden;
+  }
+
+  /* Beveled inner frame using borders */
+  .xp-frame{
+    position:absolute; inset:4px;
+    background:#dbeaf9;
+    border-left: 1px solid var(--xp-frame-lite);
+    border-top:  1px solid var(--xp-frame-lite);
+    border-right:1px solid var(--xp-frame-mid);
+    border-bottom:1px solid var(--xp-frame-mid);
+    box-shadow:
+      inset 1px 1px 0 #f7fbff,
+      inset -1px -1px 0 #a9c4e4;
+    border-radius:4px;
+    display:flex;
+    flex-direction:column;
+  }
+
+  /* Titlebar (XP Luna gradient) */
+  .xp-titlebar{
+    height:30px;
+    display:flex;
+    align-items:center;
+    padding:0 8px;
+    color:#fff;
+    text-shadow: 0 1px 0 rgba(0,0,0,.45);
+    background:
+      linear-gradient(180deg, var(--xp-blue-top), var(--xp-blue-bot));
+    border-bottom:1px solid #2a568a;
+    position:relative;
+  }
+
+  .xp-titlebar::before{
+    content:"";
+    position:absolute; inset:0;
+    /* top highlight stripe like XP */
+    background: linear-gradient(180deg, rgba(255,255,255,.35), transparent 55%);
+    pointer-events:none;
+  }
+
+  .xp-title-icon{
+    width:16px; height:16px; margin-right:6px;
+    background:
+      radial-gradient(circle at 30% 30%, #fff, #b9dcff 60%, #1b75ce 61%) no-repeat;
+    border:1px solid rgba(0,0,0,.25);
+    border-radius:3px;
+    box-shadow: 0 0 0 1px rgba(255,255,255,.2) inset;
+  }
+
+  .xp-title{
+    font-weight:700;
+    font-size:13px;
+    letter-spacing:.2px;
+  }
+
+  .xp-title-spacer{ flex:1; }
+
+  /* Round XP buttons */
+  .xp-btn{
+    width:18px; height:18px; border-radius:50%;
+    margin-left:6px;
+    border:1px solid rgba(0,0,0,.35);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.6),
+      0 1px 0 rgba(0,0,0,.25);
+    display:grid; place-items:center;
+    font-size:11px; line-height:0; color:#1b1b1b;
+    cursor:pointer;
+  }
+  .xp-btn:active{ filter:brightness(.9); transform: translateY(1px); }
+  .btn-min{ background: radial-gradient(circle at 30% 30%, #fff, var(--xp-btn-yellow)); }
+  .btn-max{ background: radial-gradient(circle at 30% 30%, #fff, var(--xp-btn-green)); }
+  .btn-close{ background: radial-gradient(circle at 30% 30%, #fff, var(--xp-btn-red)); }
+
+  /* Content area — status bar + terminal */
+  .xp-content{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    padding:8px;
+    height: calc(100% - 30px);
+  }
+
+  /* Fake menu / path bar like XP apps */
+  .xp-status{
+    font-size:12px;
+    color:#084b8a;
+    background:#edf4fd;
+    border:1px solid #9bbbe1;
+    border-radius:3px;
+    padding:4px 8px;
+    margin-bottom:6px;
+    box-shadow:
+      inset 0 1px 0 #fff,
+      0 1px 0 #ffffffb3;
+  }
+
+  /* Terminal area (classic CMD look) */
+  .terminal{
+    flex:1;
+    background: var(--term-bg);
+    color: var(--term-fg);
+    border:2px solid #7f9db9;               /* classic window client-edge */
+    box-shadow:
+      inset 1px 1px 0 #d4d0c8,
+      inset -1px -1px 0 #404040;
+    border-radius:2px;
+    padding:10px 12px;
+    overflow:auto;
+  }
+
+  pre{ margin:0; }
+  code{
+    font-family: "Lucida Console", "Consolas", "Courier New", monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  /* Blinking block cursor (white) */
+  .cursor{
+    display:inline-block;
+    width:0.6em; height:1.1em; background:var(--cursor);
+    vertical-align:-0.15em; margin-left:2px;
+    animation:blink 1.05s steps(1) infinite;
+  }
+  @keyframes blink{ 50% { opacity:0; } }
+
+  /* Bottom-right resize grippy (visual only) */
+  .grippy{
+    position:absolute; right:10px; bottom:10px;
+    width:12px; height:12px;
+    background:
+      linear-gradient(135deg, #aeb2b5 25%, transparent 25%) 0 0/6px 6px,
+      linear-gradient(135deg, #aeb2b5 25%, transparent 25%) 3px 3px/6px 6px;
+    opacity:.6;
+    pointer-events:none;
+  }
+
+  /* Selection color inside terminal */
+  ::selection{
+    background:#3465a4; color:#fff;
+  }
+</style>
+</head>
+<body>
+  <div class="desktop">
+    <div class="xp-window" id="win">
+      <div class="xp-frame">
+        <div class="xp-titlebar" id="drag-bar">
+          <div class="xp-title-icon" aria-hidden="true"></div>
+          <div class="xp-title">Oxyde Terminal — downloads_page.rs</div>
+          <div class="xp-title-spacer"></div>
+          <div class="xp-btn btn-min" title="Minimize">–</div>
+          <div class="xp-btn btn-max" title="Maximize">▢</div>
+          <div class="xp-btn btn-close" title="Close">×</div>
+        </div>
+
+        <div class="xp-content">
+          <div class="xp-status">Path: C:\Oxy2K\src\downloads_page.rs &nbsp; | &nbsp; Build: Debug &nbsp; | &nbsp; Target: x86_64-unknown-linux-gnu</div>
+          <div class="terminal">
+            <pre><code id="output"></code><span class="cursor" id="cursor"></span></pre>
+          </div>
+        </div>
+        <div class="grippy"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Your Rust phony code lives here -->
+  <script type="text/plain" id="rust-source">
+// downloads_page.rs — XP-flavored, still "phony"
+use std::env;
+use std::time::{Duration, Instant};
+
+const CACHE_TTL_SECONDS: u64 = 60;
+const SOFT_TIMEOUT_MS: u64 = 2750;
+const MAX_DOWNLOADS_TO_RENDER: usize = 250;
+
+#[derive(Debug, Clone)]
+struct Download {
+    name: String,
+    version: String,
+    published_at: String,
+    size_bytes: u64,
+    sha256: Option<String>,
+    urls: Urls,
+    tags: Vec<String>,
+}
+
+#[derive(Debug, Clone)]
+struct Urls {
+    primary: Option<String>,
+    mirror: Option<String>,
+}
+
+struct Cache;
+impl Cache {
+    fn get<T: Clone>(_key: &str) -> Option<T> { None }
+    fn put<T>(_key: &str, _value: &T, _ttl_seconds: u64) {}
+}
+
+fn main() {
+    if flag("MAINTENANCE_MODE", false) {
+        println!("[UI] Downloads temporarily offline.");
+        return;
+    }
+    if !flag("ENABLE_DOWNLOADS", false) {
+        println!("[UI] Downloads are not enabled yet. Check back soon.");
+        return;
+    }
+
+    let cache_key = "downloads:index:v1";
+    if let Some::<Vec<Download>>(cached) = Cache::get(cache_key) {
+        render_downloads_page(&cached);
+        return;
+    }
+
+    let result = attempt_fetch_downloads(Duration::from_millis(SOFT_TIMEOUT_MS));
+    if result.timed_out {
+        println!("[UI] We're fetching the latest files… try refreshing in a moment.");
+        return;
+    }
+    if let Some(err) = result.error {
+        eprintln!("[ERROR] {}", err);
+        println!("[UI] We couldn't load downloads right now.");
+        return;
+    }
+
+    let mut downloads = match result.payload {
+        Some(p) => p,
+        None => { println!("[UI] No downloads available yet."); return; }
+    };
+
+    if downloads.is_empty() {
+        println!("[UI] No downloads yet — packaging builds.");
+        return;
+    }
+    if downloads.len() > MAX_DOWNLOADS_TO_RENDER {
+        downloads.truncate(MAX_DOWNLOADS_TO_RENDER);
+    }
+
+    downloads = dedupe_by_checksum(downloads);
+    sort_by_published_desc(&mut downloads);
+
+    Cache::put(cache_key, &downloads, CACHE_TTL_SECONDS);
+    render_downloads_page(&downloads);
+}
+
+struct FetchResult { timed_out: bool, error: Option<String>, payload: Option<Vec<Download>> }
+
+fn attempt_fetch_downloads(_timeout: Duration) -> FetchResult {
+    FetchResult {
+        timed_out: false,
+        error: None,
+        payload: Some(vec![
+            Download {
+                name:"Oxyde Compositor".into(),
+                version:"0.1.0-alpha".into(),
+                published_at:"2025-09-29".into(),
+                size_bytes: 1_048_576,
+                sha256: Some("deadbeefdeadbeef…".into()),
+                urls: Urls{ primary: Some("https://oxy2k.org/dl/oxyde-compositor-0.1.0-alpha.tar.xz".into()), mirror: None },
+                tags: vec!["linux".into(), "wayland".into(), "alpha".into()],
+            },
+            Download {
+                name:"Oxyde File Manager".into(),
+                version:"0.0.7".into(),
+                published_at:"2025-09-18".into(),
+                size_bytes: 2_398_112,
+                sha256: None,
+                urls: Urls{ primary: None, mirror: Some("https://mirror.oxy2k.org/oxyde-fm-0.0.7.zip".into()) },
+                tags: vec!["linux".into(), "gtk".into()],
+            },
+        ])
+    }
+}
+
+fn render_downloads_page(items: &Vec<Download>) {
+    println!("[UI] <!doctype html>");
+    println!("[UI] <h1>Downloads</h1>");
+    println!("[UI] <p>Grab builds for LinX OS & Oxyde.</p>");
+    for item in items {
+        if !is_valid_download(item) { continue; }
+        println!("[UI] - {} {} ({} bytes)", item.name, item.version, item.size_bytes);
+    }
+}
+
+fn is_valid_download(d:&Download)->bool{
+    if d.name.trim().is_empty() {return false;}
+    if d.version.trim().is_empty(){return false;}
+    if d.urls.primary.is_none() && d.urls.mirror.is_none(){return false;}
+    true
+}
+
+fn dedupe_by_checksum(items:Vec<Download>)->Vec<Download>{ items }
+fn sort_by_published_desc(items:&mut Vec<Download>){
+    items.sort_by(|a,b| b.published_at.cmp(&a.published_at));
+}
+
+fn flag(name:&str, default:bool)->bool{
+    match env::var(name){
+        Ok(v)=> matches!(v.as_str(),"1"|"true"|"TRUE"|"yes"|"on"),
+        Err(_)=> default,
+    }
+}
+  </script>
+
+  <script>
+  // --- XP window drag (title bar) ---
+  (function(){
+    const win = document.getElementById('win');
+    const bar = document.getElementById('drag-bar');
+    let offX=0, offY=0, dragging=false;
+
+    bar.addEventListener('mousedown', e=>{
+      dragging = true;
+      const rect = win.getBoundingClientRect();
+      offX = e.clientX - rect.left;
+      offY = e.clientY - rect.top;
+      e.preventDefault();
+    });
+    window.addEventListener('mousemove', e=>{
+      if(!dragging) return;
+      const x = e.clientX - offX;
+      const y = e.clientY - offY;
+      win.style.left = Math.max(0, Math.min(window.innerWidth - win.offsetWidth, x)) + 'px';
+      win.style.top  = Math.max(0, Math.min(window.innerHeight - win.offsetHeight, y)) + 'px';
+    });
+    window.addEventListener('mouseup', ()=> dragging=false);
+  })();
+
+  // --- Typewriter for the Rust code ---
+  (function(){
+    const src = document.getElementById('rust-source').textContent.replace(/\r\n/g, '\n');
+    const out = document.getElementById('output');
+    const cursor = document.getElementById('cursor');
+
+    const baseDelay = 9;   // ms per char
+    const jitter    = 25;  // random extra
+    const newlineBoost = 16;
+
+    let i = 0;
+    function typeNext(){
+      if(i >= src.length){ return; }
+      const ch = src[i++];
+      out.textContent += ch;
+
+      let delay = baseDelay + Math.random()*jitter;
+      if(ch === '\n') delay += newlineBoost;
+
+      // autoscroll terminal as we type
+      cursor.scrollIntoView({block:'end'});
+      setTimeout(typeNext, delay);
+    }
+    setTimeout(typeNext, 300);
+  })();
+  </script>
+</body>
+</html>
