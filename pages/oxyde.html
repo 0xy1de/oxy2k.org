@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+  "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+  <title>Oxyde Desktop – About</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <style type="text/css">
+    body { margin:0; padding:0; background:#0f2233; color:#00141d; font-family:Tahoma, Verdana, Arial, Helvetica, sans-serif; }
+    .aquaTop { background: #b8f0ff; }
+    .aquaHi  { background: #a2e6ff; }
+    .aquaMid { background: #8edcff; }
+    .aquaLo  { background: #79d2ff; }
+    .aquaDeep{ background: #52c3ff; }
+    .panel {
+      border-top: 1px solid #ffffff;
+      border-left: 1px solid #ffffff;
+      border-right: 1px solid #2c8fb8;
+      border-bottom: 1px solid #2c8fb8;
+      background: #e8fbff;
+    }
+    a { color:#004e7a; }
+    a:hover { color:#006ca6; }
+    .btn {
+      border-top: 1px solid #ffffff;
+      border-left: 1px solid #ffffff;
+      border-right: 1px solid #2c8fb8;
+      border-bottom: 1px solid #2c8fb8;
+      background: #c9f3ff;
+      padding: 4px 10px;
+      white-space: nowrap;
+    }
+    .btn a { color:#00364a; text-decoration:none; font-weight:bold; }
+    .btn a:hover { text-decoration:underline; }
+    #page { width:760px; margin:0 auto; }
+    .title { font-family:Trebuchet MS, Tahoma, Verdana, Arial; font-size:24px; font-weight:bold; color:#00364a; }
+    .badge { font-size:10px; color:#024257; }
+    .mono { font-family:"Courier New", Courier, monospace; }
+  </style>
+</head>
+<body>
+<div id="page">
+  <!-- Header -->
+  <table width="100%" cellspacing="0" cellpadding="10" border="0" class="panel">
+    <tr>
+      <td valign="middle">
+        <div class="title">About Oxyde Desktop</div>
+        <div style="font-size:11px; color:#00425a;">Rust‑powered compositor with Aqua‑style blur & glass</div>
+      </td>
+      <td align="right">
+        <table cellspacing="0" cellpadding="3" border="0">
+          <tr>
+            <td class="btn"><a href="../index.html">Home</a></td>
+            <td class="btn"><a href="linx.html">LinX&nbsp;OS</a></td>
+            <td class="btn"><a href="oxyde.html">Oxyde&nbsp;Desktop</a></td>
+            <td class="btn"><a href="downloads.html">Downloads</a></td>
+            <td class="btn"><a href="links.html">Retro&nbsp;Links</a></td>
+            <td class="btn"><a href="about.html">About</a></td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Overview -->
+  <table width="100%" cellspacing="0" cellpadding="12" border="0" class="panel" style="margin-top:12px;">
+    <tr><td class="aquaHi" style="font-weight:bold;">Overview</td></tr>
+    <tr><td class="aquaMid">
+      <p><b>Oxyde</b> is a lightweight desktop environment and compositor designed to bring back the playful early‑2000s look—Aqua chrome, subtle gloss, tasteful blur—without the bloat. The guiding target is a full desktop footprint under <b>1&nbsp;GB</b> of RAM, even with animations and glass effects enabled.</p>
+      <ul>
+        <li>Rust core for safety & performance</li>
+        <li>Responsive animations, gentle shadows, frosted panels</li>
+        <li>Classic ergonomics: <span class="mono">Win</span> key opens the app drawer</li>
+        <li>Purpose‑built taskbar and file manager (C/C++ for retro flavor)</li>
+      </ul>
+      <p>Oxyde is open source: <a href="https://github.com/0xy1de/Oxyde-Y2K">Oxyde Y2k</a></p>
+    </td></tr>
+  </table>
+
+  <!-- Features -->
+  <table width="100%" cellspacing="0" cellpadding="12" border="0" class="panel" style="margin-top:12px;">
+    <tr><td class="aquaHi" style="font-weight:bold;">Key Features</td></tr>
+    <tr><td class="aquaMid">
+      <ul>
+        <li><b>Aqua‑glass UI:</b> stacked gradients and soft bevels for an authentic 2003 feel.</li>
+        <li><b>Snappy compositor:</b> tuned frame pacing and efficient blur passes.</li>
+        <li><b>Light by design:</b> minimal background services, careful memory budgets.</li>
+        <li><b>Retro‑first UX:</b> large click targets, keyboard nav, classic context menus.</li>
+      </ul>
+    </td></tr>
+  </table>
+
+  <!-- Architecture -->
+  <table width="100%" cellspacing="0" cellpadding="12" border="0" class="panel" style="margin-top:12px;">
+    <tr><td class="aquaHi" style="font-weight:bold;">Architecture Snapshot</td></tr>
+    <tr><td class="aquaMid">
+      <ul>
+        <li><b>Core:</b> Rust</li>
+        <li><b>Compositor:</b> custom, optimized for low RAM usage</li>
+        <li><b>Shell:</b> classic taskbar + start/app drawer</li>
+        <li><b>Apps:</b> file manager & tools (C/C++ for that retro coding vibe)</li>
+      </ul>
+      <p class="badge">Note: Exact backends and modules are evolving with pre‑alpha work.</p>
+    </td></tr>
+  </table>
+
+  <!-- System Requirements -->
+  <table width="100%" cellspacing="0" cellpadding="12" border="0" class="panel" style="margin-top:12px;">
+    <tr><td class="aquaHi" style="font-weight:bold;">System Requirements (Early Draft)</td></tr>
+    <tr><td class="aquaMid">
+      <ul>
+        <li>Modern x86‑64 CPU (2 cores+ recommended)</li>
+        <li>4&nbsp;GB RAM (works on less; goal is &lt;1&nbsp;GB for desktop + compositor)</li>
+        <li>Basic 3D‑capable GPU</li>
+      </ul>
+      <p class="badge">These will be refined as builds mature.</p>
+    </td></tr>
+  </table>
+
+  <!-- Changelog -->
+  <table width="100%" cellspacing="0" cellpadding="12" border="0" class="panel" style="margin-top:12px;">
+    <tr><td class="aquaHi" style="font-weight:bold;">Changelog</td></tr>
+    <tr><td class="aquaMid">
+      <ul>
+        <li><b>Oct 2025</b> — Memory budget pass; glass/blur tuning; taskbar polish.</li>
+        <li><b>Sep 2025</b> — Early app drawer & task buttons wired; animations pass 1.</li>
+        <li><b>Aug 2025</b> — Compositor prototype online; initial Aqua gradient study.</li>
+      </ul>
+    </td></tr>
+    <tr><td class="aquaLo" class="badge">Detailed release notes will accompany pre‑alpha builds.</td></tr>
+  </table>
+
+  <!-- Footer -->
+  <table width="100%" cellspacing="0" cellpadding="6" border="0" style="margin-top:12px;">
+    <tr>
+      <td align="left" class="badge">© 2003–2025 Oxy2K • HTML 4.01 Transitional</td>
+      <td align="right" class="badge">Return to <a href="../index.html">Home</a></td>
+    </tr>
+  </table>
+</div>
+</body>
+</html>
