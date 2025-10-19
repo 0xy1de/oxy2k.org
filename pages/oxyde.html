@@ -32,7 +32,49 @@
     .btn a { color:#00364a; text-decoration:none; font-weight:bold; }
     .btn a:hover { text-decoration:underline; }
     #page { width:760px; margin:0 auto; }
-    .title { font-family:Trebuchet MS, Tahoma, Verdana, Arial; font-size:24px; font-weight:bold; color:#00364a; }
+    .title { position: relative; display:inline-block; }
+
+    /* Clickable logo link (NEW) */
+    .logo-link { text-decoration:none; display:inline-block; }
+
+    /* Logo wrapper with soft shadow + hover glow (UPDATED) */
+    .logo-wrap {
+      position: relative;
+      display: inline-block;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.25);
+      transition: box-shadow 0.25s ease-in-out, transform 0.2s ease-in-out;
+    }
+    .logo-wrap:hover {
+      box-shadow: 0 0 10px rgba(82,195,255,0.6), 0 0 4px rgba(0,150,255,0.5) inset;
+      transform: translateY(-1px);
+    }
+
+    /* Logo image sizing */
+    .logo-img {
+      display: block;
+      height: 64px;           /* adjust if you want it larger */
+      max-width: 300px;       /* keeps it tidy within the header */
+      border: none;
+    }
+    /* Subtle Aqua-style gloss */
+    .logo-wrap:after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 50%;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.45), rgba(255,255,255,0));
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      pointer-events: none;
+    }
+    .subtitle {
+      font-size:11px;
+      color:#00425a;
+      margin-top:4px;
+    }
     .badge { font-size:10px; color:#024257; }
     .mono { font-family:"Courier New", Courier, monospace; }
   </style>
@@ -43,8 +85,15 @@
   <table width="100%" cellspacing="0" cellpadding="10" border="0" class="panel">
     <tr>
       <td valign="middle">
-        <div class="title">About Oxyde Desktop</div>
-        <div style="font-size:11px; color:#00425a;">Rust‑powered compositor with Aqua‑style blur & glass</div>
+        <div class="title">
+          <!-- Clickable logo with gloss + soft shadow -->
+          <a href="../index.html" class="logo-link">
+            <span class="logo-wrap">
+              <img src="../assets/logo.png" alt="Oxyde Desktop Logo" class="logo-img">
+            </span>
+          </a>
+        </div>
+        <div class="subtitle">Rust-powered compositor with Aqua-style blur &amp; glass</div>
       </td>
       <td align="right">
         <table cellspacing="0" cellpadding="3" border="0">
@@ -65,12 +114,12 @@
   <table width="100%" cellspacing="0" cellpadding="12" border="0" class="panel" style="margin-top:12px;">
     <tr><td class="aquaHi" style="font-weight:bold;">Overview</td></tr>
     <tr><td class="aquaMid">
-      <p><b>Oxyde</b> is a lightweight desktop environment and compositor designed to bring back the playful early‑2000s look—Aqua chrome, subtle gloss, tasteful blur—without the bloat. The guiding target is a full desktop footprint under <b>1&nbsp;GB</b> of RAM, even with animations and glass effects enabled.</p>
+      <p><b>Oxyde</b> is a lightweight desktop environment and compositor designed to bring back the playful early-2000s look—Aqua chrome, subtle gloss, tasteful blur—without the bloat. The guiding target is a full desktop footprint under <b>1&nbsp;GB</b> of RAM, even with animations and glass effects enabled.</p>
       <ul>
-        <li>Rust core for safety & performance</li>
+        <li>Rust core for safety &amp; performance</li>
         <li>Responsive animations, gentle shadows, frosted panels</li>
         <li>Classic ergonomics: <span class="mono">Win</span> key opens the app drawer</li>
-        <li>Purpose‑built taskbar and file manager (C/C++ for retro flavor)</li>
+        <li>Purpose-built taskbar and file manager (C/C++ for retro flavor)</li>
       </ul>
       <p>Oxyde is open source: <a href="https://github.com/0xy1de/Oxyde-Y2K">Oxyde Y2k</a></p>
     </td></tr>
@@ -81,27 +130,27 @@
     <tr><td class="aquaHi" style="font-weight:bold;">Key Features</td></tr>
     <tr><td class="aquaMid">
       <ul>
-        <li><b>Aqua‑glass UI:</b> stacked gradients and soft bevels for an authentic 2003 feel.</li>
+        <li><b>Aqua-glass UI:</b> stacked gradients and soft bevels for an authentic 2003 feel.</li>
         <li><b>Snappy compositor:</b> tuned frame pacing and efficient blur passes.</li>
         <li><b>Light by design:</b> minimal background services, careful memory budgets.</li>
-        <li><b>Retro‑first UX:</b> large click targets, keyboard nav, classic context menus.</li>
+        <li><b>Retro-first UX:</b> large click targets, keyboard nav, classic context menus.</li>
       </ul>
     </td></tr>
   </table>
 
   <!-- Screenshots -->
-<table width="100%" cellspacing="0" cellpadding="12" border="0" class="panel" style="margin-top:12px;">
-  <tr><td class="aquaHi" style="font-weight:bold;">Screenshots</td></tr>
-  <tr><td class="aquaMid" align="center">
-    <p>Latest development screenshot (09/24/2025):</p>
-    <table cellspacing="0" cellpadding="4" border="0" style="background:#ffffff; border:1px solid #52c3ff;">
-      <tr><td>
-        <img src="../assets/screenshots/09242025.png" alt="Oxyde Desktop Screenshot 09/24/2025" width="720" height="auto" style="border:1px solid #00364a;">
-      </td></tr>
-    </table>
-    <p class="badge">Captured from Oxyde-Y2K build – showing early taskbar and start menu.</p>
-  </td></tr>
-</table>
+  <table width="100%" cellspacing="0" cellpadding="12" border="0" class="panel" style="margin-top:12px;">
+    <tr><td class="aquaHi" style="font-weight:bold;">Screenshots</td></tr>
+    <tr><td class="aquaMid" align="center">
+      <p>Latest development screenshot (09/24/2025):</p>
+      <table cellspacing="0" cellpadding="4" border="0" style="background:#ffffff; border:1px solid #52c3ff;">
+        <tr><td>
+          <img src="../assets/screenshots/09242025.png" alt="Oxyde Desktop Screenshot 09/24/2025" width="720" height="auto" style="border:1px solid #00364a;">
+        </td></tr>
+      </table>
+      <p class="badge">Captured from Oxyde-Y2K build – showing early taskbar and start menu.</p>
+    </td></tr>
+  </table>
 
   <!-- Architecture -->
   <table width="100%" cellspacing="0" cellpadding="12" border="0" class="panel" style="margin-top:12px;">
@@ -111,9 +160,9 @@
         <li><b>Core:</b> Rust</li>
         <li><b>Compositor:</b> custom, optimized for low RAM usage</li>
         <li><b>Shell:</b> classic taskbar + start/app drawer</li>
-        <li><b>Apps:</b> file manager & tools (C/C++ for that retro coding vibe)</li>
+        <li><b>Apps:</b> file manager &amp; tools (C/C++ for that retro coding vibe)</li>
       </ul>
-      <p class="badge">Note: Exact backends and modules are evolving with pre‑alpha work.</p>
+      <p class="badge">Note: Exact backends and modules are evolving with pre-alpha work.</p>
     </td></tr>
   </table>
 
@@ -122,9 +171,9 @@
     <tr><td class="aquaHi" style="font-weight:bold;">System Requirements (Early Draft)</td></tr>
     <tr><td class="aquaMid">
       <ul>
-        <li>Modern x86‑64 CPU (2 cores+ recommended)</li>
+        <li>Modern x86-64 CPU (2 cores+ recommended)</li>
         <li>4&nbsp;GB RAM (works on less; goal is &lt;1&nbsp;GB for desktop + compositor)</li>
-        <li>Basic 3D‑capable GPU</li>
+        <li>Basic 3D-capable GPU</li>
       </ul>
       <p class="badge">These will be refined as builds mature.</p>
     </td></tr>
@@ -138,11 +187,11 @@
         <li><b>Oct 2025</b> — Started sourcing and working on icons.</li>
         <li><b>Oct 2025</b> — Coded rust compositor.</li>
         <li><b>Oct 2025</b> — Taskbar polish.</li>
-        <li><b>Sep 2025</b> — Early app drawer & task buttons wired; animations pass 1.</li>
+        <li><b>Sep 2025</b> — Early app drawer &amp; task buttons wired; animations pass 1.</li>
         <li><b>Aug 2025</b> — Compositor prototype online; initial Aqua gradient study.</li>
       </ul>
     </td></tr>
-    <tr><td class="aquaLo" class="badge">Detailed release notes will accompany pre‑alpha builds.</td></tr>
+    <tr><td class="aquaLo" class="badge">Detailed release notes will accompany pre-alpha builds.</td></tr>
   </table>
 
   <!-- Footer -->
